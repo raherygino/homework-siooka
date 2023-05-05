@@ -56,6 +56,15 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="20dp"
+            android:layout_centerInParent="true"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="38dp"
@@ -65,6 +74,7 @@
             android:background="@drawable/back_btn_teal"
             android:fontFamily="sans-serif-light"
             android:onClick="@{ (view) -> viewModel.searchVenues() }"
+            android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
             android:text="@string/search"/>
 
 
@@ -82,8 +92,9 @@
         <TextView
             android:id="@+id/emptyTextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{ viewModel.data }"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="@{ viewModel.snackbarMessage }"
             android:textSize="16sp"
             android:gravity="center"
             android:visibility="@{viewModel.venues.size() == 0 ? View.VISIBLE : View.GONE}" />

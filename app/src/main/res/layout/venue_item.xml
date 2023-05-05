@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Details"
-            android:text="@{item.fsqId}"/>
+            android:text="@{item.location.formattedAddress}"/>
 
     </LinearLayout>
 

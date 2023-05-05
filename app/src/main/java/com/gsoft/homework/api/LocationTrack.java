@@ -16,7 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
 
-public class LocationTrack extends Service implements LocationListener {
+public class    LocationTrack extends Service implements LocationListener {
 
     private final Context mContext;
     boolean checkGPS = false;
