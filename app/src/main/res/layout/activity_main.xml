@@ -1,20 +1,68 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
         <variable
             name="viewModel"
             type="com.gsoft.homework.viewmodel.MainViewModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:background="@color/grey_200"
+        android:padding="10dp">
 
-        <TextView
-            android:id="@+id/hello_world"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_search"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:hint="@string/search"
+            android:layout_marginBottom="8dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:singleLine="true"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:paddingStart="12dp"
+                android:textSize="14sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_city"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/address"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_city"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:singleLine="true"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:paddingStart="12dp"
+                android:textSize="14sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.dataValue}" />
+            android:layout_height="38dp"
+            android:layout_gravity="end"
+            android:textAllCaps="false"
+            app:backgroundTint="@null"
+            android:background="@drawable/back_btn_teal"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/search"/>
 
     </LinearLayout>
 </layout>
