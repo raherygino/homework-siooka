@@ -2,12 +2,9 @@ package com.gsoft.homework.view.activities;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.gsoft.homework.R;
 import com.gsoft.homework.databinding.ActivityMainBinding;
-import com.gsoft.homework.viewmodel.MyViewModel;
+import com.gsoft.homework.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -16,8 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        MyViewModel viewModel = ViewModelProviders.of(this).get(MyViewModel.class);
-        //MyViewModel viewModel = new MyViewModel();
+        MainViewModel viewModel = new MainViewModel();
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
     }

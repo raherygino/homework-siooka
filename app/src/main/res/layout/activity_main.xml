@@ -2,7 +2,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.gsoft.homework.viewmodel.MyViewModel" />
+            type="com.gsoft.homework.viewmodel.MainViewModel" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
