@@ -8,12 +8,13 @@ import com.gsoft.homework.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        MainViewModel viewModel = new MainViewModel();
+        MainViewModel viewModel = new MainViewModel(this);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
     }
