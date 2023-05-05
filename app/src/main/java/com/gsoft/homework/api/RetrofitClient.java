@@ -23,5 +23,9 @@ public class RetrofitClient {
     public static Call<ResponseBody> searchVenues(String query, String latitude, String longitude) {
         return  getApiService().searchVenues(AUTH_TOKEN, query, latitude+","+longitude, true, DISTANCE);
     }
+
+    public static Call<ResponseBody> searchCity(String latitude, String longitude) {
+        return  getApiService().searchCity(AUTH_TOKEN, latitude+","+longitude);
+    }
 }
 

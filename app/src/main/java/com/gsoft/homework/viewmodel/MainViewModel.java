@@ -49,6 +49,7 @@ public class MainViewModel extends BaseObservable {
     public LiveData<Boolean> isLoading = _isLoading;
 
     public ObservableField<String> queryValue = new ObservableField<>();
+    public ObservableField<String> city = new ObservableField<>();
     public ObservableList<Venue> venues = new ObservableArrayList<>();
 
     public MainViewModel(Context mContext) {
@@ -61,6 +62,8 @@ public class MainViewModel extends BaseObservable {
         } else {
             locationTrack.showSettingsAlert();
         }
+
+        searchCity();
     }
 
     @Bindable
@@ -106,6 +109,31 @@ public class MainViewModel extends BaseObservable {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 _snackbarMessage.setValue(t.getMessage());
                 _isLoading.setValue(false);
+            }
+        });
+    }
+
+    public void searchCity() {
+        Call<ResponseBody> getCity = RetrofitClient.searchCity(Double.toString(latitude), Double.toString(longitude));
+        getCity.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject json = new JSONObject(response.body().source().readUtf8());
+                        JSONArray results = json.getJSONArray(RESULTS);
+                        Venue venue = new VenueParser().Parse(results.getJSONObject(0));
+                        city.set(venue.location.locality);
+                    } catch (IOException | JSONException e) {
+                        _snackbarMessage.setValue(e.getMessage());
+                    }
+                } else {
+                    _snackbarMessage.setValue("City not found");
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                _snackbarMessage.setValue("Check your network");
             }
         });
     }

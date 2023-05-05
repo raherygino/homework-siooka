@@ -52,6 +52,7 @@
                 android:paddingTop="0dp"
                 android:paddingBottom="0dp"
                 android:paddingStart="12dp"
+                android:text="@={ viewModel.city }"
                 android:textSize="14sp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
