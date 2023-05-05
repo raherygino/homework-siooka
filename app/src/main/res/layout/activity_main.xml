@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.gsoft.homework.viewmodel.MainViewModel" />
@@ -66,11 +67,26 @@
             android:onClick="@{ (view) -> viewModel.searchVenues() }"
             android:text="@string/search"/>
 
-        <EditText
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/grey_200"
+            android:layout_marginTop="10dp"
+            android:dividerHeight="1dp"
+            android:clipToPadding="false"
+            android:background="@android:color/white"
+            android:visibility="@{viewModel.venues.size() > 0 ? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            android:id="@+id/emptyTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@{ viewModel.data }"/>
+            android:text="@{ viewModel.data }"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:visibility="@{viewModel.venues.size() == 0 ? View.VISIBLE : View.GONE}" />
 
     </LinearLayout>
 </layout>
