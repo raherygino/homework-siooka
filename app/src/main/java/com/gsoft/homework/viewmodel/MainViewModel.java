@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -80,6 +81,7 @@ public class MainViewModel extends BaseObservable {
 
     public void searchVenues() {
         _isLoading.setValue(true);
+        _snackbarMessage.setValue("");
         venues.clear();
         notifyPropertyChanged(BR.venues);
 
@@ -95,7 +97,11 @@ public class MainViewModel extends BaseObservable {
                         JSONArray results = json.getJSONArray(RESULTS);
 
                         if (results.length() == 0) {
-                            _snackbarMessage.setValue("No result for \""+queryValue.get()+"\"");
+                            if (queryValue.get() == null || city.get() == null) {
+                                _snackbarMessage.setValue("City and Query required");
+                            } else {
+                                _snackbarMessage.setValue("No result for \""+queryValue.get()+"\" at \""+city.get()+"\"");
+                            }
                         }
 
                         for (int i = 0; i < results.length(); i++) {

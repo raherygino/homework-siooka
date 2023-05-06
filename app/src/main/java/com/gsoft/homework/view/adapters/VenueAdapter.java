@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 
 import com.gsoft.homework.databinding.VenueItemBinding;
 import com.gsoft.homework.models.Venue;
+import com.gsoft.homework.viewmodel.ListVenueViewModel;
 
 import java.util.List;
 
@@ -44,6 +45,9 @@ public class VenueAdapter extends BaseAdapter {
             binding = VenueItemBinding.inflate(layoutInflater, parent, false);
             convertView = binding.getRoot();
             convertView.setTag(binding);
+            ListVenueViewModel viewModel = new ListVenueViewModel(convertView.getContext(), venueList);
+            viewModel.setPosition(position);
+            binding.setViewModel(viewModel);
         } else {
             binding = (VenueItemBinding) convertView.getTag();
         }

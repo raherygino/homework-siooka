@@ -32,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
         viewModel.snackbarMessage.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String message) {
-                Snackbar.make( binding.getRoot(), message, Snackbar.LENGTH_SHORT).show();
+                if (!message.isEmpty()) {
+                    Snackbar.make( binding.getRoot(), message, Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
