@@ -23,7 +23,7 @@
             android:layout_marginBottom="8dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/input_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -31,7 +31,8 @@
                 android:paddingTop="0dp"
                 android:paddingBottom="0dp"
                 android:paddingStart="12dp"
-                android:text="@={ viewModel.queryValue }"
+                android:completionThreshold="1"
+                android:text="@={viewModel.queryValue}"
                 android:textSize="14sp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,17 +67,39 @@
             android:layout_centerInParent="true"
             android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="38dp"
-            android:layout_gravity="end"
-            android:textAllCaps="false"
-            app:backgroundTint="@null"
-            android:background="@drawable/back_btn_teal"
-            android:fontFamily="sans-serif-light"
-            android:onClick="@{ (view) -> viewModel.searchVenues() }"
-            android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
-            android:text="@string/search"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_gravity="end"
+                android:textAllCaps="false"
+                app:backgroundTint="@null"
+                android:background="@drawable/back_btn_white"
+                android:textColor="@color/teal_700"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginEnd="5dp"
+                android:text="@string/clear"
+                android:onClick="@{ (view) -> viewModel.clearResult() }"
+                android:visibility="@{viewModel.venues.size() > 0 ? View.VISIBLE : View.GONE}"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_gravity="end"
+                android:textAllCaps="false"
+                app:backgroundTint="@null"
+                android:background="@drawable/back_btn_teal"
+                android:fontFamily="sans-serif-light"
+                android:onClick="@{ (view) -> viewModel.searchVenues() }"
+                android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
+                android:text="@string/search"/>
+        </LinearLayout>
+
 
 
         <ListView

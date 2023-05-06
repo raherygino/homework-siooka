@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         binding.setViewModel(viewModel);
         ListView listView = binding.listView;
         listView.setAdapter(new VenueAdapter(this, viewModel.getVenues()));
+        viewModel.setupAutoCompleteTextView(binding.inputSearch, this);
         binding.setLifecycleOwner(this);
         viewModel.snackbarMessage.observe(this, new Observer<String>() {
             @Override

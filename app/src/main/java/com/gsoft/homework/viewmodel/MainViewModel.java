@@ -23,6 +23,8 @@ import com.gsoft.homework.models.Venue;
 import com.gsoft.homework.utils.VenueParser;
 import android.Manifest;
 import android.os.Looper;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,10 +56,10 @@ public class MainViewModel extends BaseObservable {
     private MutableLiveData<Boolean> _isLoading = new MutableLiveData<>();
     public LiveData<Boolean> isLoading = _isLoading;
 
-    public ObservableField<String> queryValue = new ObservableField<>();
     public ObservableField<String> city = new ObservableField<>();
     public ObservableList<Venue> venues = new ObservableArrayList<>();
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    public MutableLiveData<String> queryValue = new MutableLiveData<>();
 
     public MainViewModel(Context mContext) {
         context = mContext;
@@ -74,6 +76,18 @@ public class MainViewModel extends BaseObservable {
         getMyLocation();
     }
 
+
+    public void setupAutoCompleteTextView(AutoCompleteTextView autoCompleteTextView, Context context) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, new String[]{
+                "Bakery", "Breakfast", "Coffee", "Grocery", "Hotel", "Restaurant"
+        });
+        autoCompleteTextView.setAdapter(adapter);
+
+        queryValue.observeForever(s -> {
+            adapter.getFilter().filter(s);
+        });
+    }
+
     @Bindable
     public ObservableList<Venue> getVenues() {
         return venues;
@@ -85,7 +99,7 @@ public class MainViewModel extends BaseObservable {
         venues.clear();
         notifyPropertyChanged(BR.venues);
 
-        Call<ResponseBody> query = RetrofitClient.searchVenues(queryValue.get(), city.get());
+        Call<ResponseBody> query = RetrofitClient.searchVenues(queryValue.getValue(), city.get());
         query.enqueue(new Callback<ResponseBody>() {
 
             @Override
@@ -97,10 +111,10 @@ public class MainViewModel extends BaseObservable {
                         JSONArray results = json.getJSONArray(RESULTS);
 
                         if (results.length() == 0) {
-                            if (queryValue.get() == null || city.get() == null) {
+                            if (queryValue.getValue() == null || city.get() == null) {
                                 _snackbarMessage.setValue("City and Query required");
                             } else {
-                                _snackbarMessage.setValue("No result for \""+queryValue.get()+"\" at \""+city.get()+"\"");
+                                _snackbarMessage.setValue("No result for \""+queryValue.getValue()+"\" at \""+city.get()+"\"");
                             }
                         }
 
@@ -203,5 +217,10 @@ public class MainViewModel extends BaseObservable {
                 _snackbarMessage.setValue("Check your network");
             }
         });
+    }
+
+    public void clearResult() {
+        venues.clear();
+        notifyPropertyChanged(BR.venues);
     }
 }
