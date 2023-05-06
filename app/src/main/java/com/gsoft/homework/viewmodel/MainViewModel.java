@@ -2,8 +2,12 @@ package com.gsoft.homework.viewmodel;
 
 import static com.gsoft.homework.constants.data.KeysModelConstants.RESULTS;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.ObservableArrayList;
@@ -17,6 +21,8 @@ import com.gsoft.homework.api.LocationTrack;
 import com.gsoft.homework.api.RetrofitClient;
 import com.gsoft.homework.models.Venue;
 import com.gsoft.homework.utils.VenueParser;
+import android.Manifest;
+import android.os.Looper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +34,12 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+
 
 public class MainViewModel extends BaseObservable {
 
@@ -44,19 +56,21 @@ public class MainViewModel extends BaseObservable {
     public ObservableField<String> queryValue = new ObservableField<>();
     public ObservableField<String> city = new ObservableField<>();
     public ObservableList<Venue> venues = new ObservableArrayList<>();
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     public MainViewModel(Context mContext) {
         context = mContext;
         LocationTrack locationTrack = new LocationTrack(context);
 
         if (locationTrack.canGetLocation()) {
-            longitude = locationTrack.getLongitude();
-            latitude = locationTrack.getLatitude();
+            if (locationTrack.getLatitude() != 0) {
+                longitude = locationTrack.getLongitude();
+                latitude = locationTrack.getLatitude();
+            }
         } else {
             locationTrack.showSettingsAlert();
         }
-
-        searchCity();
+        getMyLocation();
     }
 
     @Bindable
@@ -105,6 +119,52 @@ public class MainViewModel extends BaseObservable {
             }
         });
     }
+
+    public void getMyLocation() {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) context,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            getCurrentLocation();
+        }
+    }
+
+    private void getCurrentLocation() {
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(3000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider callin
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        LocationServices.getFusedLocationProviderClient(context)
+                .requestLocationUpdates(locationRequest, new LocationCallback() {
+
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+                        LocationServices.getFusedLocationProviderClient(context)
+                                .removeLocationUpdates(this);
+                        if (locationResult != null && locationResult.getLocations().size() > 0) {
+                            int latestlocIndex = locationResult.getLocations().size() - 1;
+                            latitude = locationResult.getLocations().get(latestlocIndex).getLatitude();
+                            longitude = locationResult.getLocations().get(latestlocIndex).getLongitude();
+                            searchCity();
+                        }
+                    }
+                }, Looper.getMainLooper());
+
+    }
+
 
     public void searchCity() {
         Call<ResponseBody> getCity = RetrofitClient.searchCity(Double.toString(latitude), Double.toString(longitude));
