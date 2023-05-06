@@ -1,6 +1,7 @@
 package com.gsoft.homework.viewmodel;
 
 import static com.gsoft.homework.constants.data.KeysModelConstants.RESULTS;
+import static com.gsoft.homework.constants.network.NetworkConstants.LOCATION_PERMISSION_REQUEST_CODE;
 
 import android.app.Activity;
 import android.content.Context;
@@ -49,16 +50,15 @@ public class MainViewModel extends BaseObservable {
     Double latitude = 41.8781; //Default Latitude
     Double longitude = -87.6298; //Default Longitude
 
-    private Context context;
-    private MutableLiveData<String> _snackbarMessage = new MutableLiveData<>();
+    private final Context context;
+    private final MutableLiveData<String> _snackbarMessage = new MutableLiveData<>();
     public LiveData<String> snackbarMessage = _snackbarMessage;
 
-    private MutableLiveData<Boolean> _isLoading = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> _isLoading = new MutableLiveData<>();
     public LiveData<Boolean> isLoading = _isLoading;
 
     public ObservableField<String> city = new ObservableField<>();
     public ObservableList<Venue> venues = new ObservableArrayList<>();
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     public MutableLiveData<String> queryValue = new MutableLiveData<>();
 
     public MainViewModel(Context mContext) {
@@ -82,7 +82,6 @@ public class MainViewModel extends BaseObservable {
                 "Bakery", "Breakfast", "Coffee", "Grocery", "Hotel", "Restaurant"
         });
         autoCompleteTextView.setAdapter(adapter);
-
         queryValue.observeForever(s -> {
             adapter.getFilter().filter(s);
         });

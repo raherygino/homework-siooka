@@ -14,8 +14,8 @@ import java.util.List;
 
 public class VenueAdapter extends BaseAdapter {
 
-    private List<Venue> venueList;
-    private LayoutInflater layoutInflater;
+    private final List<Venue> venueList;
+    private final LayoutInflater layoutInflater;
 
     public VenueAdapter(Context context, List<Venue> itemList) {
         this.venueList = itemList;

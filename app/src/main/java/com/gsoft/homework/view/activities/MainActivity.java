@@ -1,5 +1,7 @@
 package com.gsoft.homework.view.activities;
 
+import static com.gsoft.homework.constants.network.NetworkConstants.LOCATION_PERMISSION_REQUEST_CODE;
+
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -17,7 +19,7 @@ import com.gsoft.homework.viewmodel.MainViewModel;
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     MainViewModel viewModel;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

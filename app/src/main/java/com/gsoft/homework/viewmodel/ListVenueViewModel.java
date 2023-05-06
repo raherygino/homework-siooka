@@ -1,5 +1,6 @@
 package com.gsoft.homework.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class ListVenueViewModel extends ViewModel {
 
+    @SuppressLint("StaticFieldLeak")
     private final Context context;
     private final List<Venue> venueList;
     public int position = 0;
