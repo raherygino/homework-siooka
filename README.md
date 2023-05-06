@@ -15,6 +15,17 @@ corresponding Foursquare’s venue, to get its stats, its
 ranking and display it to the user, for this demo
 purpose you can present this info in a small popup.
 
+### Preview
+<table>
+    <tr>
+        <td><img src="https://raw.githubusercontent.com/raherygino/homework-siooka/main/app/screenshots/01.jpg" width="200" /></td>
+        <td><img src="https://raw.githubusercontent.com/raherygino/homework-siooka/main/app/screenshots/02.jpg" width="200" /></td>
+        <td><img src="https://raw.githubusercontent.com/raherygino/homework-siooka/main/app/screenshots/03.jpg" width="200" /></td>
+        <td><img src="https://raw.githubusercontent.com/raherygino/homework-siooka/main/app/screenshots/04.jpg" width="200" /></td>
+        <td><img src="https://raw.githubusercontent.com/raherygino/homework-siooka/main/app/screenshots/05.jpg" width="200" /></td>
+    </tr>
+</table>
+
 ### Installation
 - git clone https://github.com/raherygino/homework-siooka.git
 - synchonize <code>app/build.gradle</code> for installation all library
