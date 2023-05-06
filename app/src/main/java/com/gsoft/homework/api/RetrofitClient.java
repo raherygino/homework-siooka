@@ -20,8 +20,8 @@ public class RetrofitClient {
         return retrofit.create(ApiService.class);
     }
 
-    public static Call<ResponseBody> searchVenues(String query, String latitude, String longitude) {
-        return  getApiService().searchVenues(AUTH_TOKEN, query, latitude+","+longitude, true, DISTANCE);
+    public static Call<ResponseBody> searchVenues(String query, String city) {
+        return  getApiService().searchVenues(AUTH_TOKEN, query, city, true, DISTANCE);
     }
 
     public static Call<ResponseBody> searchCity(String latitude, String longitude) {

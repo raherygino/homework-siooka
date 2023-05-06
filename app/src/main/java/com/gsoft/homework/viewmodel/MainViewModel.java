@@ -83,7 +83,7 @@ public class MainViewModel extends BaseObservable {
         venues.clear();
         notifyPropertyChanged(BR.venues);
 
-        Call<ResponseBody> query = RetrofitClient.searchVenues(queryValue.get(),Double.toString(latitude), Double.toString(longitude));
+        Call<ResponseBody> query = RetrofitClient.searchVenues(queryValue.get(), city.get());
         query.enqueue(new Callback<ResponseBody>() {
 
             @Override

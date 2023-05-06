@@ -13,7 +13,7 @@ public interface ApiService {
     Call<ResponseBody> searchVenues(
             @Header("Authorization") String authToken,
             @Query("query") String query,
-            @Query("ll") String ll,
+            @Query("near") String city,
             @Query("open_now") Boolean open_now,
             @Query("DISTANCE") String distance
     );
