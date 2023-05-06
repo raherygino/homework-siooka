@@ -124,7 +124,7 @@ public class MainViewModel extends BaseObservable {
                         notifyPropertyChanged(BR.venues);
 
                     } catch (IOException | JSONException e) {
-                        _snackbarMessage.setValue(e.getMessage());
+                        _snackbarMessage.setValue("Check your network");
                     }
                 } else {
                     _snackbarMessage.setValue(response.toString());
