@@ -1,11 +1,5 @@
 package com.gsoft.homework.viewmodel;
 
-import static com.gsoft.homework.constants.data.KeysModelConstants.COUNTRY;
-import static com.gsoft.homework.constants.data.KeysModelConstants.FORMATTED_ADDRESS;
-import static com.gsoft.homework.constants.data.KeysModelConstants.FSQ_ID;
-import static com.gsoft.homework.constants.data.KeysModelConstants.LOCALITY;
-import static com.gsoft.homework.constants.data.KeysModelConstants.LOCATION;
-import static com.gsoft.homework.constants.data.KeysModelConstants.NAME;
 import static com.gsoft.homework.constants.data.KeysModelConstants.RESULTS;
 
 import android.content.Context;
@@ -21,7 +15,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.gsoft.homework.BR;
 import com.gsoft.homework.api.LocationTrack;
 import com.gsoft.homework.api.RetrofitClient;
-import com.gsoft.homework.models.Location;
 import com.gsoft.homework.models.Venue;
 import com.gsoft.homework.utils.VenueParser;
 
@@ -122,8 +115,16 @@ public class MainViewModel extends BaseObservable {
                     try {
                         JSONObject json = new JSONObject(response.body().source().readUtf8());
                         JSONArray results = json.getJSONArray(RESULTS);
-                        Venue venue = new VenueParser().Parse(results.getJSONObject(0));
-                        city.set(venue.location.locality);
+                        String venueCity = null;
+
+                        for (int i = 0; i < results.length(); i++) {
+                            Venue venue = new VenueParser().Parse(results.getJSONObject(i));
+                            if (venue.location.locality != null && venueCity == null) {
+                                venueCity = venue.location.locality;
+                            }
+                        }
+                        city.set(venueCity);
+
                     } catch (IOException | JSONException e) {
                         _snackbarMessage.setValue(e.getMessage());
                     }
